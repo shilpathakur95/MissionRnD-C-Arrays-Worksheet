@@ -20,7 +20,35 @@ struct student {
 	char *name;
 	int score;
 };
-
 struct student ** topKStudents(struct student *students, int len, int K) {
-	return NULL;
+	int iterator, iterator2 = 0, max,temp;
+	struct student **stud;
+	stud = (struct student **)malloc(sizeof(struct student));
+	if (len < 0 || students == NULL || K <= 0)
+		return NULL;
+	if (K > len)
+		K = len;
+	temp = 0;
+	for (iterator = 1; iterator < len; iterator++)
+	{
+		if (students[iterator].score>students[temp].score)
+			temp = iterator;
+	}
+	K--;
+	stud[iterator2] = &students[temp];
+	iterator2++;
+	while (K > 0)
+	{
+		max = 0;
+		for (iterator = 1; iterator < len; iterator++)
+		{
+			if ((students[temp].score - students[iterator].score<students[temp].score - students[max].score || students[temp].score - students[max].score <= 0) && (students[temp].score - students[iterator].score!=0))
+				max = iterator;
+		}
+		K--;
+		stud[iterator2] = &students[max];
+		iterator2++;
+		temp = max;
+	}
+	return stud;
 }
